@@ -1,10 +1,19 @@
-CC=gcc
+CC = gcc
+SOURCESRC = src
+BUILDSRC = build
 
-all: src/main.c src/gpio.c
-	${CC} src/gpio.c src/main.c -o build/main -Wall -g -std=c11
+.PHONY: clean gpio.o main test
 
-test: build/main
-	./build/main
+all: clean gpio.o main
 
-clear: build/main
-	rm build/main
+main:
+	${CC} -o ${BUILDSRC}/main ${BUILDSRC}/gpio.o ${SOURCESRC}/main.c ${SOURCESRC}/gpio.h ${SOURCESRC}/raspi4.h
+
+gpio.o: 
+	${CC} -c -o ${BUILDSRC}/gpio.o ${SOURCESRC}/gpio.c
+
+test:
+	sudo ${BUILDSRC}/main
+
+clean:
+	rm -f ${BUILDSRC}/*.o ${BUILDSRC}/main
