@@ -13,6 +13,22 @@ gpio_structure* new_gpio(uint8_t gpio_num, uint8_t func)
     gpio_structure* new_gpio_device = (gpio_structure*)calloc(sizeof(gpio_structure),1);
     new_gpio_device->gpio_num = gpio_num;
     new_gpio_device->gpio_func = func;
+    pinMode(gpio_num, func);
+    return new_gpio_device;
+}
+
+void write_gpio(gpio_structure* gpio_device, uint8_t io_level)
+{
+    digitalWrite(gpio_device->gpio_num, io_level);
+}
+
+uint8_t read_gpio(gpio_structure* gpio_device)
+{
+    return (*(mmio_gpio + GPLEV((gpio_device->gpio_num))) & (1 << gpio_device->gpio_num)) >> gpio_device->gpio_num;
+}
+
+void pinMode(uint8_t gpio_num, uint8_t func)
+{
     // set gpio func
     switch (func)
     {
@@ -27,26 +43,25 @@ gpio_structure* new_gpio(uint8_t gpio_num, uint8_t func)
         default:
             break;
     };
-    return new_gpio_device;
 }
 
-void write_gpio(gpio_structure* gpio_device, uint8_t io_level)
+void digitalWrite(uint8_t gpio_num, uint8_t io_level)
 {
     switch (io_level)
     {
         case HIGH:
-            *(mmio_gpio + GPSET( (io_level / 32) )) = 1 << gpio_device->gpio_num;
+            *(mmio_gpio + GPSET( (io_level / 32) )) = 1 << gpio_num;
             break;
         case LOW:
-            *(mmio_gpio + GPCLR( (io_level / 32) )) = 1 << gpio_device->gpio_num;
+            *(mmio_gpio + GPCLR( (io_level / 32) )) = 1 << gpio_num;
             break;
         default:
             break;
     };
-
 }
 
-uint8_t read_gpio(gpio_structure* gpio_device)
+uint8_t digitalRead(uint8_t gpio_num, uint8_t func)
 {
-    return *(mmio_gpio + GPLEV((gpio_device->gpio_num / 32))) >> gpio_device->gpio_num;
+    return (*(mmio_gpio + GPLEV((gpio_num))) & (1 << gpio_num)) >> gpio_num;
 }
+

@@ -8,7 +8,7 @@
 #define GPFSEL(x) (0x00 + (x) / 10)
 #define GPSET(x) (0x07 + ((x) << 1))
 #define GPCLR(x) (0x0A + ((x) << 1))
-#define GPLEV(x) (0x0D + ((x) << 1))
+#define GPLEV(x) (0x0D + ((x) / 32))
 
 
 #endif

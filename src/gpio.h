@@ -33,8 +33,8 @@ gpio_structure* new_gpio(uint8_t, uint8_t);
 void write_gpio(gpio_structure*,uint8_t);
 uint8_t read_gpio(gpio_structure*);
 // arduino method
-void pinMode(int,int);
-void digitalWrite(int,int);
-void digitalRead(int,int);
+void pinMode(uint8_t,uint8_t);
+void digitalWrite(uint8_t,uint8_t);
+uint8_t digitalRead(uint8_t,uint8_t);
 
 #endif
