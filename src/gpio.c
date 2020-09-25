@@ -4,7 +4,7 @@ void initial()
 {
     // mmap
     int fd = open("/dev/mem", O_RDWR | O_SYNC);
-    mmio_gpio = (uint32_t*)mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIO_BASE);
+    mmio_gpio = (volatile unsigned*)mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIO_BASE);
     close(fd);
 }
 
@@ -18,11 +18,11 @@ gpio_structure* new_gpio(uint8_t gpio_num, uint8_t func)
     {
         case OUTPUT:
             // output before input  
-            *(mmio_gpio + GPFSEL((gpio_num/10))) &= ~(7 << (gpio_num % 10 * 3));
-            *(mmio_gpio + GPFSEL((gpio_num/10))) |= (1 << (gpio_num % 10 * 3));
+            *(mmio_gpio + GPFSEL((gpio_num))) &= ~(7 << (gpio_num % 10 * 3));
+            *(mmio_gpio + GPFSEL((gpio_num))) |= (1 << (gpio_num % 10 * 3));
             break;
         case INPUT:
-            *(mmio_gpio + GPFSEL((gpio_num/10))) &= ~(7 << (gpio_num % 10 * 3));
+            *(mmio_gpio + GPFSEL((gpio_num))) &= ~(7 << (gpio_num % 10 * 3));
             break;
         default:
             break;
