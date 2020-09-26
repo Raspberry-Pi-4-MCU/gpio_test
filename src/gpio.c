@@ -52,10 +52,10 @@ void digitalWrite(uint8_t gpio_num, uint8_t io_level)
     switch (io_level)
     {
         case HIGH:
-            *(mmio_gpio + GPSET( (io_level / 32) )) = 1 << gpio_num;
+            *(mmio_gpio + GPSET( (gpio_num / 32) )) = 1 << gpio_num;
             break;
         case LOW:
-            *(mmio_gpio + GPCLR( (io_level / 32) )) = 1 << gpio_num;
+            *(mmio_gpio + GPCLR( (gpio_num / 32) )) = 1 << gpio_num;
             break;
         default:
             break;
