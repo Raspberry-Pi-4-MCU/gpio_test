@@ -36,5 +36,8 @@ uint8_t read_gpio(gpio_structure*);
 void pinMode(uint8_t,uint8_t);
 void digitalWrite(uint8_t,uint8_t);
 uint8_t digitalRead(uint8_t,uint8_t);
+//assert
+#define assert_param(x) ((x)?(void)0:assert_failed((uint8_t *)__FILE__, __LINE__))
+void assert_failed(uint8_t* file, uint32_t line);
 
 #endif

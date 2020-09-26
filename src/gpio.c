@@ -29,6 +29,7 @@ uint8_t read_gpio(gpio_structure* gpio_device)
 
 void pinMode(uint8_t gpio_num, uint8_t func)
 {
+    assert_param((IS_PIN((gpio_num))));
     // set gpio func
     switch (func)
     {
@@ -47,6 +48,7 @@ void pinMode(uint8_t gpio_num, uint8_t func)
 
 void digitalWrite(uint8_t gpio_num, uint8_t io_level)
 {
+    assert_param((IS_PIN((gpio_num))));
     switch (io_level)
     {
         case HIGH:
@@ -62,6 +64,11 @@ void digitalWrite(uint8_t gpio_num, uint8_t io_level)
 
 uint8_t digitalRead(uint8_t gpio_num, uint8_t func)
 {
+    assert_param((IS_PIN((gpio_num))));
     return (*(mmio_gpio + GPLEV((gpio_num))) & (1 << gpio_num)) >> gpio_num;
 }
 
+void assert_failed(uint8_t* file, uint32_t line)
+{
+    printf("error at file %s, line %d",file,line);
+}
