@@ -18,7 +18,7 @@
 // GPIO func
 #define OUTPUT 0
 #define INPUT 1
-volatile unsigned* mmio_gpio;
+
 // common
 void initial();
 // OOP

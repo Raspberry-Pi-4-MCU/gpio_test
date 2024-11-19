@@ -1,5 +1,7 @@
 #include "gpio.h"
 
+volatile unsigned* mmio_gpio;
+
 void initial()
 {
     // mmap
